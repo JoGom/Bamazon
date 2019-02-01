@@ -1,4 +1,5 @@
 let mysql = require("mysql");
+let columnify = require("columnify");
 
 let connection = mysql.createConnection({
     host: "localhost",
@@ -17,13 +18,7 @@ connection.connect(function(err){
 function displayInventory(){
     connection.query("SELECT item_id, product_name, price FROM products", function(err, res){
         if(err) throw err;
-        console.log()
-        for(let i = 0; i < res.length; i++){
-            console.log(
-            ``
-            )
-        }
-        console.log(res);
+        console.log(columnify(res));
         connection.end();
     });
 };
