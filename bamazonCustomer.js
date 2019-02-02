@@ -86,7 +86,7 @@ function purchaseItem(){
             else{
             updateInventory(res[0].item_id, res[0].stock_quantity-answer.quantity);
             console.log("===============================================================================");
-            console.log(`Successfully purchased ${answer.quantity} ${res[0].product_name} at $${res[0].price} a peice!`);
+            console.log(`Successfully purchased ${answer.quantity} ${res[0].product_name}(s) at $${res[0].price} a peice!`);
             console.log("===============================================================================");
             };
         });
