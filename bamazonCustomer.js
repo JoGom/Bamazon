@@ -84,9 +84,10 @@ function purchaseItem(){
                 purchaseItem();
             }
             else{
-            updateInventory(res[0].item_id, res[0].stock_quantity-answer.quantity);
+            updateInventory(res[0].item_id, res[0].stock_quantity-parseInt(answer.quantity));
+            let transactionTotal = Math.round(100*(res[0].price * parseInt(answer.quantity)))/100;
             console.log("===============================================================================");
-            console.log(`Successfully purchased ${answer.quantity} ${res[0].product_name}(s) at $${res[0].price} a peice!`);
+            console.log(`Successfully purchased ${answer.quantity} ${res[0].product_name}(s) for a total of $${transactionTotal} at $${res[0].price} a peice!`);
             console.log("===============================================================================");
             };
         });
