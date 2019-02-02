@@ -12,7 +12,7 @@ let connection = mysql.createConnection({
 
 connection.connect(function(err){ 
     if(err) throw err;
-    console.log(`**** Successfully connected to Bamazon inventory as ID ${connection.threadId} *****\n`);
+    console.log(`**** Successfully connected to Bamazon inventory as customer ID ${connection.threadId} *****\n`);
     displayInventory();
 });
 
@@ -51,8 +51,9 @@ function userPrompt(){
 function displayInventory(){
     connection.query("SELECT item_id, product_name, price FROM products", function(err, res){
         if(err) throw err;
+
         console.log("===============================================================================");
-        console.log(columnify(res));
+        console.log(columnify(res,{columnSplitter: ' | ', align: 'center'}));
         console.log("===============================================================================");
 
         userPrompt();
