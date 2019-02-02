@@ -16,7 +16,6 @@ connection.connect(function(err){
     displayInventory();
 });
 
-
 function userPrompt(){
     inquirer
     .prompt({
@@ -52,7 +51,10 @@ function userPrompt(){
 function displayInventory(){
     connection.query("SELECT item_id, product_name, price FROM products", function(err, res){
         if(err) throw err;
+        console.log("===============================================================================");
         console.log(columnify(res));
+        console.log("===============================================================================");
+
         userPrompt();
     });
 };
@@ -72,18 +74,19 @@ function purchaseItem(){
     }  
     ])
     .then(function(answer) {
-        console.log(answer.quantity);
         connection.query("SELECT item_id, product_name, price, stock_quantity FROM products WHERE ?", {item_id: answer.item}, function(err, res){
             if(err) throw err;
             if(parseInt(answer.quantity)>res[0].stock_quantity){
+                console.log("===============================================================================");
                 console.log("insuffecient supply. Only "+res[0].stock_quantity+ " items in stock please reselect.");
+                console.log("===============================================================================");
                 purchaseItem();
             }
             else{
             updateInventory(res[0].item_id, res[0].stock_quantity-answer.quantity);
-            console.log("===========================================================================================");
+            console.log("===============================================================================");
             console.log(`Successfully purchased ${answer.quantity} ${res[0].product_name} at $${res[0].price} a peice!`);
-            console.log("===========================================================================================");
+            console.log("===============================================================================");
             };
         });
 
