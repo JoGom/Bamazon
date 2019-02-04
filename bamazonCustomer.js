@@ -12,7 +12,7 @@ let connection = mysql.createConnection({
 
 connection.connect(function(err){ 
     if(err) throw err;
-    console.log(`**** Successfully connected to Bamazon inventory as customer ID ${connection.threadId} *****\n`);
+    console.log(`***** Successfully connected to Bamazon inventory as Customer ID ${connection.threadId} *****\n`);
     displayInventory();
 });
 

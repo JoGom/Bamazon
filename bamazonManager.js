@@ -12,7 +12,7 @@ const connection = mysql.createConnection({
 
 connection.connect(function(err){ 
     if(err) throw err;
-    console.log(`**** Successfully connected to Bamazon inventory as ID ${connection.threadId} *****\n`);
+    console.log(`***** Successfully connected to Bamazon inventory as Manager ID ${connection.threadId} *****\n`);
     userPrompt();
 });
 
@@ -56,7 +56,7 @@ function userPrompt(){
         break;
       }
     });
-}
+};
 
 function displayInventory(){
     connection.query("SELECT * FROM products", function(err, res){
