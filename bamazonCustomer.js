@@ -1,6 +1,6 @@
-let mysql = require("mysql");
-let columnify = require("columnify");
-let inquirer = require('inquirer');
+const mysql = require("mysql");
+const columnify = require("columnify");
+const inquirer = require('inquirer');
 
 let connection = mysql.createConnection({
     host: "localhost",
@@ -75,7 +75,7 @@ function purchaseItem(){
     }  
     ])
     .then(function(answer) {
-        connection.query("SELECT item_id, product_name, price, stock_quantity FROM products WHERE ?", {item_id: answer.item}, function(err, res){
+        connection.query("SELECT * FROM products WHERE ?", {item_id: answer.item}, function(err, res){
             if(err) throw err;
             if(parseInt(answer.quantity)>res[0].stock_quantity){
                 console.log("===============================================================================");
@@ -86,6 +86,7 @@ function purchaseItem(){
             else{
             updateInventory(res[0].item_id, res[0].stock_quantity-parseInt(answer.quantity));
             let transactionTotal = Math.round(100*(res[0].price * parseInt(answer.quantity)))/100;
+            totalSales(res[0].item_id, res[0].product_sales, transactionTotal);
             console.log("===============================================================================");
             console.log(`Successfully purchased ${answer.quantity} ${res[0].product_name}(s) for a total of $${transactionTotal} at $${res[0].price} a peice!`);
             console.log("===============================================================================");
@@ -106,7 +107,21 @@ function updateInventory(itemId, inStock){
             item_id: itemId
         }
     ], function(err, res) {
+        
+    });
+};
+
+function totalSales(itemId, currentSales, transactionTotal){
+    let query = "UPDATE products SET ? WHERE ?";
+    newTotal = currentSales + transactionTotal;
+    connection.query(query, [
+        { 
+            product_sales: newTotal
+        },
+        {
+            item_id: itemId
+        }
+    ], function(err, res) {
         userPrompt();
     });
- 
 };
