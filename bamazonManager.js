@@ -59,7 +59,7 @@ function userPrompt(){
 };
 
 function displayInventory(){
-    connection.query("SELECT * FROM products", function(err, res){
+    connection.query("SELECT item_id, product_name, department_name, price, stock_quantity FROM products", function(err, res){
         if(err) throw err;
         console.log("===============================================================================");
         console.log(columnify(res,{columnSplitter: ' | ', align: 'center'}));
@@ -69,7 +69,7 @@ function displayInventory(){
 };
 
 function viewLowInventory(){
-    const query = "SELECT * FROM products WHERE stock_quantity BETWEEN 0 AND 5";
+    const query = "SELECT item_id, product_name, department_name, stock_quantity FROM products WHERE stock_quantity BETWEEN 0 AND 5";
     connection.query(query, function(err, res){
         if(err) throw err;
         console.log("===============================================================================");
@@ -122,7 +122,6 @@ function addtoDatabase(itemId, amount){
 };
 
 function createProduct(){
-    console.log("hello");
     inquirer
     .prompt([{
         name: "product",

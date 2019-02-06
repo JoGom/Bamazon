@@ -2,6 +2,7 @@ const mysql = require("mysql");
 const columnify = require("columnify");
 const inquirer = require('inquirer');
 
+
 const connection = mysql.createConnection({
     host: "localhost",
     port:  3306,
@@ -53,14 +54,13 @@ function displayDepartmentSales(){
     connection.query(query, function(err, res){
         if(err) throw err;
         console.log("===============================================================================");
-        console.log(columnify(res));
+        console.log(columnify(res,{columnSplitter: ' | ', align: 'center'}));
         console.log("===============================================================================");
         userPrompt();
     });
 };
 
 function CreateDepartment(){
-    console.log("hello");
     inquirer
     .prompt([{
         name: "department",
